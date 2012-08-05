@@ -1,0 +1,57 @@
+<!-- 
+Source file: votingclient.html
+
+Description: Client view to facilitate voting in our real-time opinion polling app
+
+---
+Copyright (c) 2012 All Right Reserved, C. A. Cois
+http://www.codehenge.net
+
+THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY 
+KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
+PARTICULAR PURPOSE.
+
+Node.js is an official trademark of Joyent. This software is not 
+formally related to or endorsed by the official Joyent Node.js open 
+source or commercial project.
+-->
+
+<!doctype html>
+<html>
+  <head>
+    <title>Voting Client</title>
+	<link rel="stylesheet" type="text/css" href="/votingclient.css"></link>
+	<script src="/socket.io/lib/socket.io.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  </head>
+  <body onload="connect()">   
+	
+	<script>
+	var socket;
+	
+	function connect() {
+	        socket = io.connect(null);
+
+	        socket.on('connect', function(){ $('#status').html('Connected to Server'); });
+	        socket.on('disconnect', function(){ $('#status').html('Disconnected form Server'); });
+	        socket.on('reconnect', function(){ $('#status').html('Reconnected to Server'); });
+	        socket.on('reconnecting', function( nextRetry ){ $('#status').html('Reconnecting in ' + nextRetry/1000 + ' seconds'); });
+	        socket.on('reconnect_failed', function(){ $('#status').html('Reconnect Failed'); });          
+	}
+	
+	function vote(v){
+	        socket.emit('vote', v);
+	}
+		
+	</script>
+	
+    <h1>Voting Client</h1>
+    <div><p id="status">Waiting for input</p></div>
+    <button id="vote" class="myButton" onClick='vote(1)'/>Vote 1</button><br>
+    <button id="vote" class="myButton" onClick='vote(2)'/>Vote 2</button><br>
+    <button id="vote" class="myButton" onClick='vote(3)'/>Vote 3</button><br>
+    <button id="vote" class="myButton" onClick='vote(4)'/>Vote 4</button><br>
+    <button id="vote" class="myButton" onClick='vote(5)'/>Vote 5</button>
+  </body>
+</html>
