@@ -35,9 +35,9 @@ source or commercial project.
 	        chart = new Highcharts.Chart({
 	            chart: {
 	                renderTo: 'container',
-	                defaultSeriesType: 'spline',
+	                defaultSeriesType: 'column',
 	                events: {
-	                    load: ticker
+	                    //load: ticker
 	                },
 	                marginRight: 130,
 	                marginBottom: 25
@@ -57,7 +57,7 @@ source or commercial project.
 	                minPadding: 0.2,
 	                maxPadding: 0.2,
 	                min: 1,
-	                max: 5
+	                max: 20
 	            },
 	            series: [{
 	                name: 'Live Poll Data',

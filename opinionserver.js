@@ -80,7 +80,7 @@ io.sockets.on('connection', function(socket){
 		// return vote average to client
 		var average = total/ctr;
 		console.log("Average: " + total + "/" + ctr + " = " + average);
-		fn(average);
+		fn(total);
 	});
 
     socket.on('disconnect', function(){
