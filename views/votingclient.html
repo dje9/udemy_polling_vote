@@ -40,15 +40,22 @@ source or commercial project.
 	        socket.on('reconnect_failed', function(){ $('#status').html('Reconnect Failed'); });          
 	}
 	
-	function vote(v){
-	        socket.emit('vote', v);
+	function voteYes(v){
+	        socket.emit('voteYes', v);
+	}
+	
+	function voteNo(v){
+	        socket.emit('voteNo', v);
 	}
 		
 	</script>
 	
-    <h1>Voting Client</h1>
-    <div><p id="status">Waiting for input</p></div>
-    <button id="vote" class="myButton" onClick='vote(1)'/>Vote YES</button><br>
-    <button id="vote" class="myButton" onClick='vote(0)'/>Vote NO</button><br>
+    <div style="background-color: #E8E8E8"">
+      <img src="/images/vote-hub.png"></img>
+      <div><p id="status">Waiting for input</p></div>
+    </div>
+    <h2>Did you enjoy IS683 with professor Williams?</h2>
+    <button id="voteYes" class="myButton" onClick='voteYes(1)'/>Vote YES</button>
+    <button id="voteNo" class="myButton" onClick='voteNo(1)'/>Vote NO</button><br>
   </body>
 </html>

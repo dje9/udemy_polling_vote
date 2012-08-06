@@ -56,32 +56,54 @@ app.listen(3035);
 //*********************
 
 var io = require('socket.io').listen(app);
-var votes = new Array();
+var votesYes = new Array();
+var votesNo = new Array();
 
 // on a 'connection' event
 io.sockets.on('connection', function(socket){
 
     console.log("Connection " + socket.id + " accepted.");
     
-	socket.on('vote', function(vote){
+	socket.on('voteYes', function(vote){
 	    // record vote
 	    console.log("Client " + socket.id + " voted " + vote);
-		votes[socket.id] = vote;
-		print_votes();
+		votesYes[socket.id] = vote;
+	});
+	
+	socket.on('voteNo', function(vote){
+	    // record vote
+	    console.log("Client " + socket.id + " voted " + vote);
+		votesNo[socket.id] = vote;
 	});
     
-	socket.on('ticker', function(fn){
-	    console.log("Sending vote average to client " + socket.id);
-		var total = 0, ctr = 0;
-		for(var v in votes){
-			total += votes[v];
-		    ctr++;
+	socket.on('tickerYes', function(fn){
+	    console.log("Sending vote tally to client " + socket.id);
+		var totalYes = 0;
+		//var totalNo = 0;
+		for(var v in votesYes){
+			totalYes += votesYes[v];
+		}
+		//for(var i in votesNo){
+			//totalNo += votesNo[i];
+		//}
+		// return vote average to client
+		console.log("Total for Yes: " + totalYes);
+		//console.log("Total for No: " + totalNo);
+		fn(totalYes);
+	});
+
+	socket.on('tickerNo', function(fn){
+	    console.log("Sending vote tally to client " + socket.id);
+		var totalNo = 0;
+		for(var i in votesNo){
+			totalNo += votesNo[i];
 		}
 		// return vote average to client
-		var average = total/ctr;
-		console.log("Average: " + total + "/" + ctr + " = " + average);
-		fn(total);
+		console.log("Total for No: " + totalNo);
+		fn(totalNo);
 	});
+	
+
 
     socket.on('disconnect', function(){
         console.log("Connection " + socket.id + " terminated.");
@@ -89,13 +111,5 @@ io.sockets.on('connection', function(socket){
     
 });
 
-print_votes = function(){
-    var total = 0;
-	console.log("\nVotes:");
-    for(var v in votes){
-        console.log("\tvotes[" + v + "] = " + votes[v]);
-    }
-	console.log("\n");
-}
 
 
